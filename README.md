@@ -1,59 +1,128 @@
-# NeonPuzzle
+# 🟪 Neon Puzzle
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7.
+A sleek, neon-themed **8-puzzle sliding game** built with **Angular 21**. Slide tiles to reconstruct the target image — or let the built-in **A\* AI solver** do it for you with a satisfying step-by-step animation.
 
-## Development server
+![Angular](https://img.shields.io/badge/Angular-21-dd0031?logo=angular&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
-To start a local development server, run:
+---
+
+## ✨ Features
+
+| Feature | Description |
+|---------|-------------|
+| 🧩 **Image-Based Puzzle** | Tiles display fragments of a real image instead of plain numbers |
+| 🤖 **AI Solver (A\*)** | One-click solver using the A\* search algorithm with Manhattan distance heuristic |
+| 🔀 **Smart Shuffle** | Fisher-Yates shuffle with inversion-parity check guarantees every puzzle is solvable |
+| ⏱️ **Live Timer & Move Counter** | Tracks your time and move count in real time |
+| 🎨 **Neon Aesthetic** | Dark UI with glowing neon accents, smooth hover effects, and polished transitions |
+| 📱 **Responsive Layout** | Adapts from mobile to desktop with a two-column grid layout |
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework** — Angular 21 (Standalone Components, Signals)
+- **Styling** — Tailwind CSS 4 via PostCSS
+- **Language** — TypeScript 5.9
+- **Testing** — Vitest
+- **Package Manager** — npm
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Node.js** ≥ 20
+- **npm** ≥ 11
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/<your-username>/neon-puzzle.git
+cd neon-puzzle
+
+# Install dependencies
+npm install
+```
+
+### Development Server
+
+```bash
+npm start
+# or
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Navigate to **http://localhost:4200/**. The app hot-reloads on file changes.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Production Build
 
 ```bash
-ng generate component component-name
+npm run build
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Build output is written to the `dist/` directory.
+
+### Running Tests
 
 ```bash
-ng generate --help
+npm test
 ```
 
-## Building
+---
 
-To build the project run:
+## 📁 Project Structure
 
-```bash
-ng build
+```
+neonPuzzle/
+├── public/
+│   ├── favicon.ico
+│   └── puzzle.jpg          # Target puzzle image
+├── src/
+│   ├── app/
+│   │   ├── app.ts          # Root component — game logic & A* solver
+│   │   ├── app.html        # Template — puzzle grid, sidebar, controls
+│   │   ├── app.css          # Component styles
+│   │   └── app.config.ts   # App configuration & providers
+│   ├── styles.css           # Global styles & Tailwind imports
+│   ├── index.html
+│   └── main.ts              # Bootstrap entry point
+├── angular.json
+├── tailwind.config.*
+├── tsconfig.json
+└── package.json
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+## 🎮 How to Play
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+1. **Start** — The puzzle shuffles automatically when the page loads.
+2. **Slide** — Click a tile adjacent to the empty space to slide it.
+3. **Goal** — Reconstruct the target image shown in the sidebar.
+4. **Stuck?** — Hit the **"SOLVE WITH AI"** button and watch the A\* algorithm solve it step by step.
+5. **Restart** — Click the refresh icon in the header to start a new game.
 
-```bash
-ng test
-```
+---
 
-## Running end-to-end tests
+## 🧠 How the AI Solver Works
 
-For end-to-end (e2e) testing, run:
+The solver uses the **A\* search algorithm**:
 
-```bash
-ng e2e
-```
+1. **State Space** — Each board configuration is a node in the search graph.
+2. **Heuristic** — **Manhattan distance** sums how far each tile is from its goal position.
+3. **Search** — A\* explores the state with the lowest `f = g + h` (moves so far + estimated remaining).
+4. **Replay** — Once a solution path is found, each state is replayed on-screen with a 400ms delay.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+For the standard 8-puzzle (3×3 grid), A\* with Manhattan distance finds optimal solutions almost instantly.
 
-## Additional Resources
+---
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 📄 License
+
+This project is open-source and available under the [MIT License](LICENSE).
