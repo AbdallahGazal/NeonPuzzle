@@ -224,13 +224,78 @@ export class App implements OnInit, OnDestroy {
     return null; // no solution (shouldn't happen for a solvable puzzle)
   }
 
+  /** BFS search – returns the sequence of board states from start to goal */
+  private bfsSolve(start: number[]): number[][] | null {
+    const goalKey = this.GOAL.join(',');
+    const queue: { state: number[]; path: number[][] }[] = [{ state: start, path: [start] }];
+    const visited = new Set<string>();
+    visited.add(start.join(','));
+
+    while (queue.length > 0) {
+      const current = queue.shift()!;
+      const key = current.state.join(',');
+
+      if (key === goalKey) return current.path;
+
+      for (const neighbor of this.getNeighbors(current.state)) {
+        const nKey = neighbor.join(',');
+        if (!visited.has(nKey)) {
+          visited.add(nKey);
+          queue.push({ state: neighbor, path: [...current.path, neighbor] });
+        }
+      }
+    }
+    return null;
+  }
+
+  /** Greedy Best-First Search – returns the sequence of board states */
+  private greedySolve(start: number[]): number[][] | null {
+    const goalKey = this.GOAL.join(',');
+
+    interface Node {
+      state: number[];
+      h: number;
+      path: number[][];
+    }
+
+    const openList: Node[] = [];
+    const closedSet = new Set<string>();
+
+    openList.push({ state: start, h: this.manhattan(start), path: [start] });
+
+    while (openList.length > 0) {
+      // Pick node with lowest h
+      let bestIdx = 0;
+      for (let i = 1; i < openList.length; i++) {
+        if (openList[i].h < openList[bestIdx].h) bestIdx = i;
+      }
+      const current = openList.splice(bestIdx, 1)[0];
+      const key = current.state.join(',');
+
+      if (key === goalKey) return current.path;
+      if (closedSet.has(key)) continue;
+      closedSet.add(key);
+
+      for (const neighbor of this.getNeighbors(current.state)) {
+        const nKey = neighbor.join(',');
+        if (closedSet.has(nKey)) continue;
+        openList.push({
+          state: neighbor,
+          h: this.manhattan(neighbor),
+          path: [...current.path, neighbor],
+        });
+      }
+    }
+    return null;
+  }
+
   /** Helper to wait a given number of ms */
   private delay(ms: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  /** Triggered by the "SOLVE WITH AI" button */
-  async solveWithAI(): Promise<void> {
+  /** Triggered by the solver buttons */
+  async solveGame(algorithm: 'A*' | 'BFS' | 'Greedy'): Promise<void> {
     if (this.isSolving()) return;
 
     // Already solved?
@@ -239,7 +304,15 @@ export class App implements OnInit, OnDestroy {
     this.isSolving.set(true);
     this.stopTimer();
 
-    const solution = this.aStarSolve(this.tiles());
+    let solution: number[][] | null = null;
+
+    if (algorithm === 'A*') {
+      solution = this.aStarSolve(this.tiles());
+    } else if (algorithm === 'BFS') {
+      solution = this.bfsSolve(this.tiles());
+    } else if (algorithm === 'Greedy') {
+      solution = this.greedySolve(this.tiles());
+    }
 
     if (!solution) {
       this.isSolving.set(false);
@@ -255,5 +328,18 @@ export class App implements OnInit, OnDestroy {
 
     this.isSolving.set(false);
     this.checkWin();
+  }
+
+  /** Triggered by the "SOLVE WITH AI" button */
+  async solveWithAI(): Promise<void> {
+    await this.solveGame('A*');
+  }
+
+  async solveWithBFS(): Promise<void> {
+    await this.solveGame('BFS');
+  }
+
+  async solveWithGreedy(): Promise<void> {
+    await this.solveGame('Greedy');
   }
 }

@@ -33,10 +33,24 @@
         </div>
       </div>
 
-      <button (click)="solveWithAI()" [disabled]="isSolving()" class="group w-full bg-[#e056fd] hover:bg-[#c939e6] disabled:opacity-50 disabled:cursor-not-allowed text-black font-extrabold py-4 rounded-sm flex justify-center items-center gap-3 transition-all shadow-[0_4px_20px_rgba(224,86,253,0.4)]">
-        <svg class="w-5 h-5" [ngClass]="{'animate-spin': isSolving()}" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a2 2 0 012 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 017 7h1a1 1 0 011 1v3a1 1 0 01-1 1h-1v1a2 2 0 01-2 2H5a2 2 0 01-2-2v-1H2a1 1 0 01-1-1v-3a1 1 0 011-1h1a7 7 0 017-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 012-2M7.5 13A2.5 2.5 0 005 15.5A2.5 2.5 0 007.5 18a2.5 2.5 0 002.5-2.5A2.5 2.5 0 007.5 13m9 0a2.5 2.5 0 00-2.5 2.5a2.5 2.5 0 002.5 2.5a2.5 2.5 0 002.5-2.5a2.5 2.5 0 00-2.5-2.5z"></path></svg>
-        {{ isSolving() ? 'SOLVING...' : 'SOLVE WITH AI' }}
-      </button>
+      <div class="flex flex-col gap-3">
+        <button (click)="solveWithAI()" [disabled]="isSolving()" class="group w-full bg-[#e056fd] hover:bg-[#c939e6] disabled:opacity-50 disabled:cursor-not-allowed text-black font-extrabold py-4 rounded-sm flex justify-center items-center gap-3 transition-all shadow-[0_4px_20px_rgba(224,86,253,0.4)]">
+          <svg class="w-5 h-5" [ngClass]="{'animate-spin': isSolving()}" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a2 2 0 012 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 017 7h1a1 1 0 011 1v3a1 1 0 01-1 1h-1v1a2 2 0 01-2 2H5a2 2 0 01-2-2v-1H2a1 1 0 01-1-1v-3a1 1 0 011-1h1a7 7 0 017-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 012-2M7.5 13A2.5 2.5 0 005 15.5A2.5 2.5 0 007.5 18a2.5 2.5 0 002.5-2.5A2.5 2.5 0 007.5 13m9 0a2.5 2.5 0 00-2.5 2.5a2.5 2.5 0 002.5 2.5a2.5 2.5 0 002.5-2.5a2.5 2.5 0 00-2.5-2.5z"></path></svg>
+          {{ isSolving() ? 'SOLVING...' : 'SOLVE WITH A* ALGORITHM' }}
+        </button>
+
+        <div class="grid grid-cols-2 gap-3">
+          <button (click)="solveWithBFS()" [disabled]="isSolving()" class="group bg-[#00e5ff] hover:bg-[#00b8cc] disabled:opacity-50 disabled:cursor-not-allowed text-black font-extrabold py-4 rounded-sm flex justify-center items-center gap-2 transition-all shadow-[0_4px_20px_rgba(0,229,255,0.3)] text-xs md:text-sm">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/></svg>
+            BFS
+          </button>
+
+          <button (click)="solveWithGreedy()" [disabled]="isSolving()" class="group bg-[#ccff00] hover:bg-[#aacc00] disabled:opacity-50 disabled:cursor-not-allowed text-black font-extrabold py-4 rounded-sm flex justify-center items-center gap-2 transition-all shadow-[0_4px_20px_rgba(204,255,0,0.3)] text-xs md:text-sm">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M11.5 2C6.81 2 3 5.81 3 10.5S6.81 19 11.5 19h.5v3l5-4-5-4v3h-.5C8.46 17 6 14.54 6 11.5S8.46 6 11.5 6 17 8.46 17 11.5c0 1.64-.71 3.12-1.84 4.16l1.42 1.42C18.17 15.58 19 13.64 19 11.5 19 7.36 15.64 4 11.5 4V2z"/></svg>
+            GREEDY
+          </button>
+        </div>
+      </div>
 
     </div>
 
